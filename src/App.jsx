@@ -1,6 +1,11 @@
 import { useState } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+
 import NavBar from "./components/NavBar";
-import ItemListContainer from "./components/ItemListContainer";
+import ItemListContainer from "./containers/ItemListContainer";
+import ItemDetailContainer from "./containers/ItemDetailContainer";
+import NotFound from "./pages/NotFound";
+
 import "./index.css";
 
 function App() {
@@ -13,10 +18,27 @@ function App() {
   return (
     <>
       <NavBar totalCarrito={carrito.length} />
-      <ItemListContainer
-        mensaje="Bienvenidos a Mateando, tu tienda de mates y accesorios"
-        agregarAlCarrito={agregarAlCarrito}
-      />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <ItemListContainer mensaje="Bienvenidos a Mateando, tu tienda de mates y accesorios" />
+          }
+        />
+        <Route
+          path="/category/:categoryId"
+          element={
+            <ItemListContainer mensaje="Bienvenidos a Mateando, tu tienda de mates y accesorios" />
+          }
+        />
+        <Route
+          path="/item/:itemId"
+          element={<ItemDetailContainer onAddToCart={agregarAlCarrito} />}
+        />
+
+        <Route path="/home" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </>
   );
 }
